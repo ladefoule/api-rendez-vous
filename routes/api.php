@@ -17,3 +17,11 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::post('/evenement/{id}/vote', 'VoteController@store');
+Route::post('/evenement/{id}/date', 'DateController@store');
+
+Route::get('/evenement/{id}', 'EvenementController@show');
+Route::post('/evenement', 'EvenementController@store');
+Route::delete('/delete/{id}', 'EvenementController@destroy');
+Route::patch('/evenement/{id}', 'EvenementController@update');
+
