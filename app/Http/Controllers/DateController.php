@@ -10,19 +10,24 @@ use Illuminate\Support\Facades\Validator;
 
 class DateController extends Controller
 {
-    public function store(Request $request, String $hash)
+    public function store(Request $request, String $hashAdmin)
     {
-        $evenement = Evenement::firstWhere('hash', $hash);
-        Validator::make($request->all(), [
+        $evenement = Evenement::firstWhere('hash_admin', $hashAdmin);
+        $validator = Validator::make($request->all(), [
             'dates' => 'required|array',
-            'dates.date*' => 'string|date_format:d/m/Y'
-        ])->validate();
+            'dates.*' => 'string|date_format:d/m/Y' //before:'.date('Y-m-d', strtotime('+1 year'))
+        ]);
+
+        if ($validator->fails())
+            return response()->json([], 404);
+
+        $request = $validator->validate();
 
         $evenementId = $evenement->id;
-        $dates = $request->dates;
+        $dates = $request['dates'];
 
         foreach ($dates as $date) {
-            $dateBonFormat = new DateTime($date['date']);
+            $dateBonFormat = new DateTime($date);
             $dateBonFormat = $dateBonFormat->format('Y-m-d');
             $date = Date::create([
                 'date' => $dateBonFormat,

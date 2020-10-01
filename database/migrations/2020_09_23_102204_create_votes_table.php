@@ -17,7 +17,7 @@ class CreateVotesTable extends Migration
             $table->id();
             $table->string('vote', 30);
             $table->string('nom', 30);
-            $table->foreignId('evenement_id')->constrained();
+            $table->foreignId('evenement_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -17,11 +17,17 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::post('/evenement/{id}/vote', 'VoteController@store');
-Route::post('/evenement/{id}/date', 'DateController@store');
 
-Route::get('/evenement/{id}', 'EvenementController@show');
 Route::post('/evenement', 'EvenementController@store');
-Route::delete('/delete/{id}', 'EvenementController@destroy');
-Route::patch('/evenement/{id}', 'EvenementController@update');
 
+Route::get('/evenement/{hash}', 'EvenementController@show');
+Route::post('/evenement/{hash}/vote', 'VoteController@store');
+
+Route::patch('/evenement/{hashAdmin}', 'EvenementController@update');
+Route::get('/evenement/{hashAdmin}/admin', 'EvenementController@showAdmin');
+Route::delete('/evenement/{hashAdmin}', 'EvenementController@destroy');
+Route::post('/evenement/{hashAdmin}/date', 'DateController@store');
+// Route::patch('/evenement/{hashAdmin}/date/{id}', 'DateController@update');
+
+Route::get('/evenements', 'EvenementController@index');
+Route::delete('/evenements/delete', 'EvenementController@destroyAll');

@@ -16,7 +16,7 @@ class CreateDatesTable extends Migration
         Schema::create('dates', function (Blueprint $table) {
             $table->id();
             $table->date('date');
-            $table->foreignId('evenement_id')->constrained();
+            $table->foreignId('evenement_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }
